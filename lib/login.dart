@@ -28,19 +28,19 @@ class Background extends StatelessWidget {
               alignment: Alignment.topLeft,
               child: Image.asset(
                 topImage,
-                width: 120,
+                width: 220,
               ),
             ),
             SafeArea(
                 child:
                     Padding(padding: const EdgeInsets.all(16), child: child)),
-            // Align(
-            //   alignment: Alignment.bottomRight,
-            //   child: Image.asset(
-            //     bottomImage,
-            //     width: 120,
-            //   ),
-            // ),
+            Align(
+              alignment: Alignment.bottomRight,
+              child: Image.asset(
+                bottomImage,
+                width: 220,
+              ),
+            ),
           ],
         ),
       ),
@@ -48,8 +48,8 @@ class Background extends StatelessWidget {
   }
 }
 
-class MobileLoginScreen extends StatelessWidget {
-  const MobileLoginScreen({
+class MobileLoginForm extends StatelessWidget {
+  const MobileLoginForm({
     Key? key,
   }) : super(key: key);
 
@@ -64,7 +64,7 @@ class MobileLoginScreen extends StatelessWidget {
               "LOGIN",
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
-            const SizedBox(height: defaultPadding * 2),
+            //const SizedBox(height: defaultPadding * 2),
             Row(
               children: [
                 const Spacer(),
@@ -75,7 +75,7 @@ class MobileLoginScreen extends StatelessWidget {
                 const Spacer(),
               ],
             ),
-            const SizedBox(height: defaultPadding * 2),
+            //const SizedBox(height: defaultPadding * 2),
             Form(
               child: Column(
                 children: [
@@ -89,14 +89,9 @@ class MobileLoginScreen extends StatelessWidget {
                         contentPadding: const EdgeInsets.all(15),
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(30))),
-                    onChanged: (value) {
-                      // do something
-                    },
-
+                    onChanged: (value) {},
                     keyboardType: TextInputType.emailAddress,
                     textInputAction: TextInputAction.next,
-                    //cursorColor: kPrimaryColor,
-                    //onSaved: (email) {},
                   ),
                   Padding(
                     padding:
@@ -104,7 +99,7 @@ class MobileLoginScreen extends StatelessWidget {
                     child: TextFormField(
                       textInputAction: TextInputAction.done,
                       obscureText: true,
-                      //cursorColor: kPrimaryColor,
+                      //cursorColor: Colors.amberAccent,
                       decoration: InputDecoration(
                           prefixIcon: const Padding(
                             padding: EdgeInsets.all(defaultPadding),
@@ -116,7 +111,7 @@ class MobileLoginScreen extends StatelessWidget {
                               borderRadius: BorderRadius.circular(30))),
                     ),
                   ),
-                  const SizedBox(height: defaultPadding),
+                  // const SizedBox(height: defaultPadding),
                   SizedBox(
                     width: MediaQuery.of(context).size.width,
                     child: ElevatedButton(
@@ -138,15 +133,14 @@ class MobileLoginScreen extends StatelessWidget {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30),
                         ),
-                        tapTargetSize: MaterialTapTargetSize.padded,
                       ),
                     ),
                   ),
                   const SizedBox(
                     height: 8,
                   ),
-                  const SocialSignUp(),
-                  const SizedBox(height: defaultPadding),
+                  SocialSignUp(),
+                  // const SizedBox(height: defaultPadding),
                 ],
               ),
             ),
@@ -169,6 +163,7 @@ class SocialSignUp extends StatelessWidget {
       children: [
         GestureDetector(
           onTap: () {},
+          
           child: Container(
             margin: const EdgeInsets.symmetric(horizontal: 10),
             padding: const EdgeInsets.all(20),
