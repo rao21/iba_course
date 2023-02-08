@@ -12,10 +12,14 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      routes: {
+        // When navigating to the "/second" route, build the SecondScreen widget.
+        //'/home': (context) => const CourseListWidget(),
+      },
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const Scaffold(body: CourseList()),
+      home: const Scaffold(body: MobileLoginForm()),
     );
   }
 }

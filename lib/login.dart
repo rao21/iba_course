@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:iba_course/course_list/view/course_list.dart';
 
 const double defaultPadding = 16.0;
 
@@ -31,9 +32,6 @@ class Background extends StatelessWidget {
                 width: 220,
               ),
             ),
-            SafeArea(
-                child:
-                    Padding(padding: const EdgeInsets.all(16), child: child)),
             Align(
               alignment: Alignment.bottomRight,
               child: Image.asset(
@@ -41,6 +39,9 @@ class Background extends StatelessWidget {
                 width: 220,
               ),
             ),
+            SafeArea(
+                child:
+                    Padding(padding: const EdgeInsets.all(16), child: child)),
           ],
         ),
       ),
@@ -75,7 +76,6 @@ class MobileLoginForm extends StatelessWidget {
                 const Spacer(),
               ],
             ),
-            //const SizedBox(height: defaultPadding * 2),
             Form(
               child: Column(
                 children: [
@@ -116,7 +116,13 @@ class MobileLoginForm extends StatelessWidget {
                     width: MediaQuery.of(context).size.width,
                     child: ElevatedButton(
                       onPressed: () {
-                        print("Doing everything");
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    const CourseListWidget()));
+
+                       // Navigator.pushNamed(context, '/home');
                       },
                       child: const Text("LOGIN"),
                       style: ElevatedButton.styleFrom(
@@ -163,7 +169,6 @@ class SocialSignUp extends StatelessWidget {
       children: [
         GestureDetector(
           onTap: () {},
-          
           child: Container(
             margin: const EdgeInsets.symmetric(horizontal: 10),
             padding: const EdgeInsets.all(20),
