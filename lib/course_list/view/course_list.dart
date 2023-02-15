@@ -1,14 +1,14 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:iba_course/course_list/data/course_data.dart';
-import 'package:iba_course/login.dart';
 
 import '../data/dummy_data.dart';
 
 class CourseListWidget extends StatefulWidget {
   const CourseListWidget({super.key});
-  
+
   @override
   State<CourseListWidget> createState() => _CourseListWidgetState();
 }
@@ -18,10 +18,10 @@ class _CourseListWidgetState extends State<CourseListWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('List'),
+          title: const Text('Course List'),
           centerTitle: true,
         ),
-        drawer: CustomDrawer(),
+        drawer: const CustomDrawer(),
         body: ListView.builder(
             itemCount: data.length,
             itemBuilder: ((ctx, i) {
@@ -30,47 +30,100 @@ class _CourseListWidgetState extends State<CourseListWidget> {
   }
 
   Widget _item({required CourseModel item}) {
-    return Card(
-      child: Column(
-        children: [
-          ListTile(
-            leading: const Icon(Icons.arrow_drop_down_circle),
-            title: Text(item.name),
-            subtitle: Text(
-              item.code,
-              style: TextStyle(color: Colors.black.withOpacity(0.6)),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Text(
-              'Greyhound divisively hello coldly wonderfully marginally far upon excluding.',
-              style: TextStyle(color: Colors.black.withOpacity(0.6)),
-            ),
-          ),
-          Image.asset(
-            'assets/images/card_img.jpg',
-          ),
-          ButtonBar(
-            alignment: MainAxisAlignment.start,
-            children: [
-              FlatButton(
-                textColor: const Color(0xFF6200EE),
-                onPressed: () {
-                  // Perform some action
-                },
-                child: const Text('ACTION 1'),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4),
+      child: Card(
+        color: Colors.grey[50],
+        elevation: 2,
+        child: Column(
+          children: [
+            ListTile(
+              onTap: () => {
+                showModalBottomSheet(
+                  context: context,
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.vertical(
+                      top: Radius.circular(32),
+                    ),
+                  ),
+                  builder: (context) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 16),
+                      child: Column(
+                        children: [
+                          // const SizedBox(
+                          //   height: 16,
+                          // ),
+                          Row(
+                            children: [
+                              const Icon(Icons.close_rounded),
+                              const Spacer(),
+                              Text(item.name),
+                              const Spacer(),
+                            ],
+                          ),
+                          Expanded(
+                            child: ListView.builder(
+                              itemCount: item.lecture.length,
+                              itemBuilder: ((ctx, i) {
+                                return ExpansionTile(
+                                  backgroundColor: Colors.grey[50],
+                                  collapsedBackgroundColor: Colors.yellow,
+                                  title: Text(
+                                    item.lecture[i].name,
+                                    style: const TextStyle(
+                                        fontSize: 18.0,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                  children: <Widget>[
+                                    Text(item.lecture[i].link,
+                                        style: const TextStyle(
+                                            fontSize: 18.0,
+                                            fontWeight: FontWeight.w500))
+                                  ],
+                                );
+                              }),
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                  // clipBehavior: Clip.antiAliasWithSaveLayer,
+                  // shape: const RoundedRectangleBorder(
+                  //   borderRadius: BorderRadius.vertical(
+                  //     top: Radius.circular(20),
+                  //   ),
+                  // ),
+                )
+              },
+              leading: SizedBox(
+                  height: 24, width: 24, child: SvgPicture.asset(item.icon)),
+              title: Text(item.name),
+              subtitle: Text(
+                item.code,
+                style: TextStyle(color: Colors.black.withOpacity(0.6)),
               ),
-              FlatButton(
-                textColor: const Color(0xFF6200EE),
-                onPressed: () {
-                  // Perform some action
-                },
-                child: const Text('ACTION 2'),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Text(
+                item.description,
+                style: const TextStyle(color: Colors.black),
               ),
-            ],
-          ),
-        ],
+            ),
+            ButtonBar(
+              alignment: MainAxisAlignment.start,
+              children: [
+                ElevatedButton(
+                  onPressed: () {},
+                  child: const Text('Show course content'),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
