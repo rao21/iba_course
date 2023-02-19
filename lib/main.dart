@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:iba_course/course_list/view/course_list.dart';
 import 'package:iba_course/login.dart';
 
+import 'api_data/view.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -19,7 +21,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const Scaffold(body: MobileLoginForm()),
+      home: const Scaffold(body: ApiData()),
     );
   }
 }
