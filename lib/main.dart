@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:iba_course/course_list/view/course_list.dart';
-import 'package:iba_course/login.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:iba_course/widget/local_widget.dart';
 
 import 'api_data/view.dart';
 
@@ -14,14 +14,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      routes: {
-        // When navigating to the "/second" route, build the SecondScreen widget.
-        //'/home': (context) => const CourseListWidget(),
-      },
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const Scaffold(body: ApiData()),
+      home: const Scaffold(body: Localize()),
     );
   }
 }
