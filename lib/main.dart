@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:iba_course/mid/api.dart';
 import 'package:iba_course/widget/local_widget.dart';
 
 import 'api_data/view.dart';
@@ -19,7 +20,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const Scaffold(body: Localize()),
+      home: const Scaffold(body: MakeUpProducts()),
     );
   }
 }
