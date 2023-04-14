@@ -15,6 +15,9 @@ class EventPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => context.pushReplacement('/sign-in'),
+      ),
       appBar: AppBar(
         title: const Text('Firebase Meetup'),
         actions: [

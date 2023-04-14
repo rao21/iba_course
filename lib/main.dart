@@ -1,26 +1,32 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_ui_auth/firebase_ui_auth.dart'; // new
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:iba_course/firebase/event_info.dart';
+import 'package:iba_course/firebase/user_list.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:iba_course/bloc/ui.dart';
 import 'package:iba_course/firebase/app_state.dart';
 
-void main() {
-  WidgetsFlutterBinding.ensureInitialized();
-  runApp(ChangeNotifierProvider(
-    create: (context) => ApplicationState(),
-    builder: ((context, child) => const App()),
-  ));
-}
+//void main() {
+// WidgetsFlutterBinding.ensureInitialized();
+// runApp(ChangeNotifierProvider(
+//   create: (context) => ApplicationState(),
+//   builder: ((context, child) => const App()),
+// ));
+
+//}
+
+
+
 
 final _router = GoRouter(
+  //AddPage
   routes: [
     GoRoute(
       path: '/',
-      builder: (context, state) => const EventPage(),
+      builder: (context, state) => AddPage(),
       routes: [
         GoRoute(
           //'/sign-in'
@@ -87,6 +93,32 @@ final _router = GoRouter(
             );
           },
         ),
+        GoRoute(
+          path: 'employee-list',
+          builder: (context, state) {
+            return ListPage();
+          },
+        ),
+        GoRoute(
+          path: 'add-employee',
+          builder: (context, state) {
+            return AddPage();
+          },
+        ),
+        GoRoute(
+          path: 'edit-employee-list',
+          builder: (context, state) {
+            return EditPage(
+              employee: Employee(
+                contactno: state.queryParams["contactno"],
+                employeename: state.queryParams["employeename"],
+                position: state.queryParams["position"],
+                uid: state.queryParams["uid"],
+              ),
+            );
+          },
+        ),
+        //
       ],
     ),
   ],

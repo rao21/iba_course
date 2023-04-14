@@ -15,4 +15,11 @@
     <style name="NormalTheme" parent="@android:style/Theme.Light.NoTitleBar">
         <item name="android:windowBackground">?android:colorBackground</item>
     </style>
+    <string name="facebook_app_id">591114236295203</string>
+    <string name="fb_login_protocol_scheme">bf3b535719753333b019f64592bb1dcc</string>
+    <string name="facebook_client_token">56789</string>
+    <string name="app_name">iba_login</string>
+    <string name="twitter_consumer_key" translatable="false">QVHuXxcMhpHpfQpMX7ta7NbUA</string>
+    <string name="twitter_consumer_secret" translatable="false">aNdoGBu4AQlODcSR5pLq5lVafu3Bv0cRWNGoZsPkkfLjACTM7i</string>
+
 </resources>
