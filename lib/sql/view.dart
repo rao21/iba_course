@@ -32,14 +32,14 @@ class LocalStorageView extends StatefulWidget {
 
 class _LocalStorageViewState extends State<LocalStorageView> {
   // All journals
-  List<Map<String, dynamic>> _journals = [];
+  List<Map<String, dynamic>> items = [];
 
   bool _isLoading = true;
   // This function is used to fetch all data from the database
-  void _refreshJournals() async {
+  void _refreshItems() async {
     final data = await SQLHelper.getItems();
     setState(() {
-      _journals = data;
+      items = data;
       _isLoading = false;
     });
   }
@@ -47,7 +47,7 @@ class _LocalStorageViewState extends State<LocalStorageView> {
   @override
   void initState() {
     super.initState();
-    _refreshJournals(); // Loading the diary when the app starts
+    _refreshItems(); // Loading the diary when the app starts
   }
 
   final TextEditingController _titleController = TextEditingController();
@@ -60,7 +60,7 @@ class _LocalStorageViewState extends State<LocalStorageView> {
       // id == null -> create new item
       // id != null -> update an existing item
       final existingJournal =
-          _journals.firstWhere((element) => element['id'] == id);
+          items.firstWhere((element) => element['id'] == id);
       _titleController.text = existingJournal['title'];
       _descriptionController.text = existingJournal['description'];
     }
@@ -127,14 +127,14 @@ class _LocalStorageViewState extends State<LocalStorageView> {
   Future<void> _addItem() async {
     await SQLHelper.createItem(
         _titleController.text, _descriptionController.text);
-    _refreshJournals();
+    _refreshItems();
   }
 
   // Update an existing journal
   Future<void> _updateItem(int id) async {
     await SQLHelper.updateItem(
         id, _titleController.text, _descriptionController.text);
-    _refreshJournals();
+    _refreshItems();
   }
 
   // Delete an item
@@ -143,39 +143,35 @@ class _LocalStorageViewState extends State<LocalStorageView> {
     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
       content: Text('Successfully deleted a journal!'),
     ));
-    _refreshJournals();
+    _refreshItems();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Local Storage'),
-      ),
+      appBar: _appBar(),
       body: _isLoading
-          ? const Center(
-              child: CircularProgressIndicator(),
-            )
+          ? _loadingWidget()
           : ListView.builder(
-              itemCount: _journals.length,
+              itemCount: items.length,
               itemBuilder: (context, index) => Card(
                 color: Colors.grey[200],
                 margin: const EdgeInsets.all(15),
                 child: ListTile(
-                    title: Text(_journals[index]['title']),
-                    subtitle: Text(_journals[index]['description']),
+                    title: Text(items[index]['title']),
+                    subtitle: Text(items[index]['description']),
                     trailing: SizedBox(
                       width: 100,
                       child: Row(
                         children: [
                           IconButton(
                             icon: const Icon(Icons.edit),
-                            onPressed: () => _showForm(_journals[index]['id']),
+                            onPressed: () => _showForm(items[index]['id']),
                           ),
                           IconButton(
                             icon: const Icon(Icons.delete),
                             onPressed: () =>
-                                _deleteItem(_journals[index]['id']),
+                                _deleteItem(items[index]['id']),
                           ),
                         ],
                       ),
@@ -187,6 +183,18 @@ class _LocalStorageViewState extends State<LocalStorageView> {
         child: const Icon(Icons.add),
         onPressed: () => _showForm(null),
       ),
+    );
+  }
+
+  Center _loadingWidget() {
+    return const Center(
+            child: CircularProgressIndicator(),
+          );
+  }
+
+  AppBar _appBar() {
+    return AppBar(
+      title: const Text('Local Storage'),
     );
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:sqflite/sqflite.dart' as sql;
 
 class SQLHelper {
+  //Create a table
   static Future<void> createTables(sql.Database database) async {
     await database.execute("""CREATE TABLE items(
         id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
@@ -38,6 +39,7 @@ class SQLHelper {
   // Read all items (journals)
   static Future<List<Map<String, dynamic>>> getItems() async {
     final db = await SQLHelper.db();
+
     return db.query('items', orderBy: "id");
   }
 
