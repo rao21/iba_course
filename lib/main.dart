@@ -1,149 +1,71 @@
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_ui_auth/firebase_ui_auth.dart'; // new
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:iba_course/firebase/user_list.dart';
-import 'package:provider/provider.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:iba_course/bloc/ui.dart';
-import 'package:iba_course/firebase/app_state.dart';
+import 'package:iba_course/course_list/view/course_list.dart';
+import 'package:iba_course/sql/view.dart';
 
-//void main() {
-// WidgetsFlutterBinding.ensureInitialized();
-// runApp(ChangeNotifierProvider(
-//   create: (context) => ApplicationState(),
-//   builder: ((context, child) => const App()),
-// ));
+import 'storages/shared_pref.dart';
 
-//}
-
-
-
-
-final _router = GoRouter(
-  //AddPage
-  routes: [
-    GoRoute(
-      path: '/',
-      builder: (context, state) => AddPage(),
-      routes: [
-        GoRoute(
-          //'/sign-in'
-          path: 'sign-in',
-          builder: (context, state) {
-            return SignInScreen(
-              actions: [
-                ForgotPasswordAction(((context, email) {
-                  final uri = Uri(
-                    path: '/sign-in/forgot-password',
-                    queryParameters: <String, String?>{
-                      'email': email,
-                    },
-                  );
-                  context.push(uri.toString());
-                })),
-                AuthStateChangeAction(((context, state) {
-                  if (state is SignedIn || state is UserCreated) {
-                    var user = (state is SignedIn)
-                        ? state.user
-                        : (state as UserCreated).credential.user;
-                    if (user == null) {
-                      return;
-                    }
-                    if (state is UserCreated) {
-                      user.updateDisplayName(user.email!.split('@')[0]);
-                    }
-                    if (!user.emailVerified) {
-                      user.sendEmailVerification();
-                      const snackBar = SnackBar(
-                          content: Text(
-                              'Please check your email to verify your email address'));
-                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                    }
-                    context.pushReplacement('/');
-                  }
-                })),
-              ],
-            );
-          },
-          routes: [
-            GoRoute(
-              path: 'forgot-password',
-              builder: (context, state) {
-                final arguments = state.queryParams;
-                return ForgotPasswordScreen(
-                  email: arguments['email'],
-                  headerMaxExtent: 200,
-                );
-              },
-            ),
-          ],
-        ),
-        GoRoute(
-          path: 'profile',
-          builder: (context, state) {
-            return ProfileScreen(
-              providers: const [],
-              actions: [
-                SignedOutAction((context) {
-                  context.pushReplacement('/');
-                }),
-              ],
-            );
-          },
-        ),
-        GoRoute(
-          path: 'employee-list',
-          builder: (context, state) {
-            return ListPage();
-          },
-        ),
-        GoRoute(
-          path: 'add-employee',
-          builder: (context, state) {
-            return AddPage();
-          },
-        ),
-        GoRoute(
-          path: 'edit-employee-list',
-          builder: (context, state) {
-            return EditPage(
-              employee: Employee(
-                contactno: state.queryParams["contactno"],
-                employeename: state.queryParams["employeename"],
-                position: state.queryParams["position"],
-                uid: state.queryParams["uid"],
-              ),
-            );
-          },
-        ),
-        //
-      ],
-    ),
-  ],
-);
+void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(App());
+}
 
 class App extends StatelessWidget {
   const App({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
+    return MaterialApp(
       title: 'Firebase Meetup',
+      //home: SharedPref(),
+      //home: CourseListWidget(),
+      home: const LocalStorageView(),
       theme: ThemeData(
-        fontFamily: 'lato',
-        buttonTheme: Theme.of(context).buttonTheme.copyWith(
-              highlightColor: Colors.deepPurple,
-            ),
-        primarySwatch: Colors.deepPurple,
-        textTheme: GoogleFonts.robotoTextTheme(
-          Theme.of(context).textTheme,
-        ),
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-        useMaterial3: true,
+        primarySwatch: Colors.indigo,
       ),
-      routerConfig: _router,
+    );
+  }
+}
+
+class Counter extends StatefulWidget {
+  const Counter({super.key});
+
+  @override
+  State<Counter> createState() => _CounterState();
+}
+
+class _CounterState extends State<Counter> {
+  int _counter = 0;
+
+  void _incrementCounter() {
+    setState(() {
+      _counter++;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Testing'),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _incrementCounter,
+        tooltip: 'Increment',
+        child: const Icon(Icons.add),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text(
+              'You have pushed the button this many times:',
+            ),
+            Text(
+              '$_counter',
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

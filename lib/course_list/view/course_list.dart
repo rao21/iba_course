@@ -18,7 +18,7 @@ class _CourseListWidgetState extends State<CourseListWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Course List'),
+          title: const Text('Course Lists'),
           centerTitle: true,
         ),
         drawer: const CustomDrawer(),
